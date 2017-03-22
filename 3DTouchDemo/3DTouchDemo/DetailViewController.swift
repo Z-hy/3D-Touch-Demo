@@ -10,6 +10,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    var is3DTouchAvailable: Bool {
+        return self.traitCollection.forceTouchCapability == .available
+    }
+    
     override var previewActionItems: [UIPreviewActionItem] {
         let action1 = UIPreviewAction(title: "Action One",
                             style: .default,
@@ -51,7 +55,14 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        if is3DTouchAvailable == false {
+            return
+        }
+        let touch = touches.first
+        view.backgroundColor = UIColor(red: 0.8, green: 0.5, blue: ((touch?.force)!/(touch?.maximumPossibleForce)!), alpha: 1.0)
+    }
     
 
     /*
